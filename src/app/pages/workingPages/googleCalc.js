@@ -33,9 +33,6 @@ class GoogleCalc extends BasePage {
         this.commUSage = '//*[@id ="select_option_115"]';
 
         this.addToEstimateButton = '//button[@type="button" and contains(text(), "Add to Estimate")]';
-        this.emailEstimateButton = '//button[@aria-label = "Email Estimate"]';
-        this.emailSendButton = '//button[@type ="button" and @aria-label = "Send Email"]';
-        this.totalCostggl = '//b[@class="ng-binding"]'
 
 
     };
@@ -147,32 +144,6 @@ class GoogleCalc extends BasePage {
         const dc = await this.driver.findElement(By.xpath(this.commUSage));
         await dc.click()
     };
-
-    async clickAddtoEstimate(position) {
-        const target = (await this.driver.findElements(By.xpath(this.addToEstimateButton)))[position];
-        await target.click();
-    };
-
-    async waitEmailEstimateButton() {
-        await this.driver.wait(async () => {
-            const target = await this.driver.findElement(By.xpath(this.emailEstimateButton));
-            return !!target
-        }, 5000)
-    };
-
-    async waitEmailButtonActive() {
-        const sendEmailButton = await this.driver.findElement(By.xpath(this.emailSendButton));
-        await this.driver.wait(until.elementIsEnabled(sendEmailButton), 3000);
-
-    }
-
-
-
-
-
-
-
-
 
 }
 

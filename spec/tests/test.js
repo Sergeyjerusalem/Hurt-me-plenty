@@ -1,7 +1,7 @@
 const DriverHolder = require('../../src/app/driverHolder/driverholder');
 const CloudGoogle = require('../../src/app/pages/workingPages/cloudGoogle');
 const GoogleCalc = require('../../src/app/pages/workingPages/googleCalc');
-const YopMail = require('../../src/app/pages/workingPages/yopMail');
+const TestInfromation = require('../../src/app/pages/workingPages/testsite/testInf')
 const dh = new DriverHolder;
 
 
@@ -29,7 +29,7 @@ describe("A suite is just a function", function () {
     it("1st test suite", async function () {
         let cloudGoogle = new CloudGoogle(driver);
         let googleCalc = new GoogleCalc(driver);
-        let yopMail = new YopMail(driver);
+        let testInformation = new TestInfromation(driver);
         await cloudGoogle.getPage('');
         await cloudGoogle.waitLabel('');
         await cloudGoogle.click('searchLabel');
@@ -50,29 +50,22 @@ describe("A suite is just a function", function () {
         await googleCalc.addSSD();
         await googleCalc.addDatacenter();
         await googleCalc.addCommUsage();
-        await googleCalc.clickAddtoEstimate(0);
-        let text1 = await googleCalc.getText('totalCostggl')
-        await googleCalc.waitEmailEstimateButton();
-        await googleCalc.click('emailEstimateButton')
-        await googleCalc.windowOri();
-        await googleCalc.openNewPage();
-        await googleCalc.switchtoPage();
-        await yopMail.waitMailTitle();
-        await yopMail.sendKeys('mailInput', 'lolyopa@mail.ru');
-        await yopMail.waitAlias();
-        await yopMail.getText('alias');
-        await googleCalc.returnToPage();
-        await googleCalc.SwitchtoFrame();
-        await yopMail.sendMail('emailInput');
-        await googleCalc.waitEmailButtonActive();
-        await googleCalc.click('emailSendButton');
-        await googleCalc.switchtoPage();
-        await yopMail.waitRefresh();
-        await yopMail.click('refreshButton');
-        await yopMail.waitTotalCost();
-        let text2 = await yopMail.getText('totalCostym');
-        await yopMail.deleteMail();
-        expect(text1).toContain(text2);
+        await googleCalc.click('addToEstimateButton');
+        let regionText = await testInformation.getText('regionTest');
+        expect(regionText).toContain('Frankfurt');
+        let commitmentYear = await testInformation.getText('yearTest')
+        expect(commitmentYear).toContain('1 Year');
+        let classTest = await testInformation.getText('classTest');
+        expect(classTest).toContain('regular');
+        let ssdTest = await testInformation.getText('ssdTest');
+        expect(ssdTest).toContain('2x375 GiB');
+        let instanceTest = await testInformation.getText('instanceTest');
+        expect(instanceTest).toContain('n1-standard-8');
+        let totalCost = await testInformation.getText('totalCost');
+        expect(totalCost).toContain('1,082.77');
+
+
+        await driver.sleep(5000)
     });
 
 });
